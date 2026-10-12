@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login Failed | Bhaskar</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+    <!-- Error Container -->
+    <div class="flex min-h-screen items-center justify-center px-6">
+
+        <!-- Error Card -->
+        <div class="w-full max-w-md">
+
+            <div class="rounded-2xl border border-red-900/50 bg-slate-900 p-8 text-center shadow-2xl">
+
+                <!-- Error Icon -->
+                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-red-500/10">
+
+                    <div class="flex h-14 w-14 items-center justify-center rounded-full bg-red-500 text-3xl text-white">
+                        !
+                    </div>
+
+                </div>
+
+                <!-- Error Message -->
+                <h1 class="mt-6 text-3xl font-bold text-white">
+                    Login Failed
+                </h1>
+
+                <p class="mt-3 text-lg text-red-400">
+                    Invalid username or password
+                </p>
+
+                <p class="mt-3 text-sm leading-6 text-slate-400">
+                    The username or password you entered is incorrect.
+                    Please check your details and try again.
+                </p>
+
+                <!-- Back to Login -->
+                <div class="mt-8">
+
+                    <a
+                        href="/"
+                        class="inline-block w-full rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+                    >
+                        Try Again
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <p class="mt-6 text-center text-sm text-slate-600">
+                © 2026 Bhaskar. Built with Flask & Tailwind CSS.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

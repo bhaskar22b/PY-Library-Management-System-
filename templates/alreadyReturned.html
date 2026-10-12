@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Already Returned | Library Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+
+    <div class="text-center px-6">
+
+        <!-- Warning Icon -->
+        <div class="mb-6 text-6xl text-yellow-500">
+            !
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-3xl font-bold">
+            Book Already Returned!
+        </h1>
+
+        <!-- Message -->
+        <p class="mt-3 text-slate-400">
+            This book has already been returned to the library.
+        </p>
+
+        <!-- Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 transition">
+                Back to Dashboard
+            </a>
+
+            <a href="{{ url_for('issued_books') }}"
+               class="rounded-lg border border-slate-700 px-5 py-3 font-semibold text-slate-300 hover:bg-slate-800 transition">
+                View Issued Books
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

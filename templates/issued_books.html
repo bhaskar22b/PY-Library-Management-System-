@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Issued Books</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+
+<body style="background-color: #020618; min-height: 100vh;">
+
+    <div class="max-w-6xl mx-auto px-6 py-10">
+
+        <!-- =========================
+             Header
+        ========================== -->
+
+        <div class="bg-blue-900 rounded-xl shadow-lg p-6 mb-8
+                    flex justify-between items-center">
+
+            <h1 class="text-3xl font-bold text-white">
+                Issued Books
+            </h1>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="bg-white text-blue-900 px-5 py-2 rounded-lg
+                      font-semibold hover:bg-gray-100 transition">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             Issued Books Table
+        ========================== -->
+
+        <div class="bg-slate-900 rounded-xl shadow-lg overflow-hidden">
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full">
+
+                    <!-- Table Header -->
+
+                    <thead class="bg-slate-800">
+
+                        <tr>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Issue ID
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Book
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Author
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Member
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Email
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-white font-semibold">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- Table Body -->
+
+                    <tbody>
+
+                        {% for issue in issued_books %}
+
+                        <tr class="border-b border-slate-700
+                                   hover:bg-blue-950 transition">
+
+                            <!-- Issue ID -->
+
+                            <td class="px-6 py-4 text-white font-medium">
+                                {{ issue.id }}
+                            </td>
+
+
+                            <!-- Book Name -->
+
+                            <td class="px-6 py-4 text-white font-medium">
+                                {{ issue.book.title }}
+                            </td>
+
+
+                            <!-- Author -->
+
+                            <td class="px-6 py-4 text-slate-300">
+                                {{ issue.book.author }}
+                            </td>
+
+
+                            <!-- Member Name -->
+
+                            <td class="px-6 py-4 text-slate-300">
+                                {{ issue.member.name }}
+                            </td>
+
+
+                            <!-- Member Email -->
+
+                            <td class="px-6 py-4 text-slate-300">
+                                {{ issue.member.email }}
+                            </td>
+
+
+                            <!-- Action -->
+
+                            <td class="px-6 py-4">
+
+                                {% if issue.returned %}
+
+                                    <span class="inline-block
+                                                 rounded-lg
+                                                 bg-green-900
+                                                 px-4 py-2
+                                                 text-sm
+                                                 font-semibold
+                                                 text-green-300">
+
+                                        Returned
+
+                                    </span>
+
+                                {% else %}
+
+                                    <a href="{{ url_for(
+                                        'return_book',
+                                        issue_id=issue.id
+                                    ) }}"
+                                       class="inline-block
+                                              rounded-lg
+                                              bg-red-600
+                                              px-4 py-2
+                                              text-sm
+                                              font-semibold
+                                              text-white
+                                              transition
+                                              hover:bg-red-700">
+
+                                        Return Book
+
+                                    </a>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+
+                        {% else %}
+
+                        <!-- No Issued Books -->
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="px-6 py-12 text-center
+                                       text-slate-400 text-lg">
+
+                                No books have been issued yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

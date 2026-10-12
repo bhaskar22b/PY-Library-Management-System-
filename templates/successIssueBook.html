@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Issued | Library Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+
+    <div class="text-center">
+
+        <!-- Success Icon -->
+
+        <div class="mb-6 text-6xl text-green-500">
+            ✓
+        </div>
+
+
+        <!-- Heading -->
+
+        <h1 class="text-3xl font-bold">
+            Book Issued Successfully!
+        </h1>
+
+
+        <!-- Message -->
+
+        <p class="mt-3 text-slate-400">
+            The book has been successfully issued to the selected member.
+        </p>
+
+
+        <!-- Buttons -->
+
+        <div class="mt-8 flex gap-4 justify-center">
+
+            <!-- Dashboard -->
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="rounded-lg bg-blue-600 px-5 py-3 font-semibold
+                       hover:bg-blue-700 transition"
+            >
+                Back to Dashboard
+            </a>
+
+
+            <!-- Issue Another Book -->
+
+            <a
+                href="{{ url_for('issue_book') }}"
+                class="rounded-lg border border-slate-700
+                       px-5 py-3 font-semibold text-slate-300
+                       hover:bg-slate-800 transition"
+            >
+                Issue Another Book
+            </a>
+
+
+            <!-- View Books -->
+
+            <a
+                href="{{ url_for('books') }}"
+                class="rounded-lg border border-slate-700
+                       px-5 py-3 font-semibold text-slate-300
+                       hover:bg-slate-800 transition"
+            >
+                View Books
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

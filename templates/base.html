@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Library Management System{% endblock %}</title>
+
+    <meta name="description"
+          content="Manage library books, members, issue records and returns with a simple library management system.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/output.css') }}">
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4">
+
+            <!-- Logo -->
+            <a href="{{ url_for('dashboard') }}"
+               class="text-2xl font-bold tracking-tight">
+                Library<span class="text-blue-500">.</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="flex flex-wrap items-center gap-2 text-sm font-medium">
+
+                <a href="{{ url_for('dashboard') }}"
+                   class="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                    Dashboard
+                </a>
+
+                <a href="{{ url_for('books') }}"
+                   class="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                    Books
+                </a>
+
+                <a href="{{ url_for('members') }}"
+                   class="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                    Members
+                </a>
+
+                <a href="{{ url_for('issue_book') }}"
+                   class="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                    Issue Book
+                </a>
+
+                <a href="{{ url_for('issued_books') }}"
+                   class="rounded-lg px-3 py-2 text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                    Issue Records
+                </a>
+
+                <a href="{{ url_for('home') }}"
+                   class="rounded-lg bg-red-600/10 px-3 py-2 text-red-400 transition hover:bg-red-600 hover:text-white">
+                    Logout
+                </a>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="mx-auto w-full max-w-7xl flex-1 px-6 py-10">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-800">
+        <div class="mx-auto flex max-w-7xl flex-col gap-2 px-6 py-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+
+            <p>
+                © 2026 Library Management System
+            </p>
+
+            <p>
+                Organize your collection. Empower your readers.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>
