@@ -3,7 +3,11 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 if os.environ.get("VERCEL"):
-    app = Flask(__name__, instance_path="/tmp")
+    app = Flask(
+        __name__,
+        instance_path="/tmp",
+        instance_relative_config=True
+    )
 else:
     app = Flask(__name__)
 
