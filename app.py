@@ -1,14 +1,21 @@
-
+import os
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+if os.environ.get("VERCEL"):
+    app = Flask(__name__, instance_path="/tmp")
+else:
+    app = Flask(__name__)
 
 # --------------------------------------------------
 # Database Configuration
 # --------------------------------------------------
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///library.db"
+if os.environ.get("VERCEL"):
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/library.db"
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///library.db"
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
