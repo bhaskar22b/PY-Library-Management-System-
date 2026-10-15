@@ -1,28 +1,20 @@
+
 import os
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
+# Configure Flask for Vercel or local development
 if os.environ.get("VERCEL"):
-    app = Flask(
-        __name__,
-        instance_path="/tmp",
-        instance_relative_config=True
-    )
-else:
-    app = Flask(__name__)
-
-# --------------------------------------------------
-# Database Configuration
-# --------------------------------------------------
-
-if os.environ.get("VERCEL"):
+    app = Flask(__name__, instance_path="/tmp/instance")
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/library.db"
 else:
+    app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///library.db"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
 
 
 # --------------------------------------------------
