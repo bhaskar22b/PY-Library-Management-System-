@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
@@ -8,1147 +7,459 @@
 
     <title>Dashboard | PY Library</title>
 
-    <meta name="description"
-          content="Manage your library collection, registered members, and book transactions.">
+    <meta name="description" content="Manage your library collection, registered members, and book transactions.">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboardStyle.css') }}">
+    
 
-    <style>
-        :root {
-            --page-bg: #0f172a;
-            --sidebar-bg: #10192c;
-            --card-bg: #111c31;
-            --border: #26344e;
-            --muted: #94a3b8;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: var(--page-bg);
-            color: #f8fafc;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .app-layout {
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* Sidebar */
-
-        .sidebar {
-            width: 270px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            background: linear-gradient(180deg, #111a2e, #0b1220);
-            border-right: 1px solid #202b42;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 25px 20px;
-            border-bottom: 1px solid #253047;
-        }
-
-        .brand-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            flex-shrink: 0;
-            border-radius: 15px;
-            background: linear-gradient(135deg, #5147c9, #f59e0b);
-            font-size: 24px;
-            box-shadow: 0 8px 20px #0003;
-        }
-
-        .brand-title {
-            font-size: 17px;
-            font-weight: 700;
-            line-height: 1.5;
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 20px 13px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-            padding: 11px;
-            border: 1px solid transparent;
-            border-radius: 12px;
-            color: #cbd5e1;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background .2s, border-color .2s,
-                        color .2s, transform .2s;
-        }
-
-        .nav-link:hover {
-            background: #19243b;
-            border-color: #2b3954;
-            color: #fff;
-            transform: translateX(3px);
-        }
-
-        .nav-link.active {
-            background: #17213a;
-            border-color: #303c58;
-            color: #fff;
-        }
-
-        .nav-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            flex-shrink: 0;
-            border-radius: 10px;
-            background: #202b40;
-            font-size: 17px;
-        }
-
-        .nav-link.active .nav-icon {
-            background: linear-gradient(135deg, #5147c9, #f59e0b);
-        }
-
-        .sidebar-bottom {
-            padding: 16px 13px 20px;
-            border-top: 1px solid #253047;
-        }
-
-        .logout-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #7f303b;
-            border-radius: 12px;
-            background: #ef444410;
-            color: #fca5a5;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background .2s, color .2s;
-        }
-
-        .logout-link:hover {
-            background: #ef444425;
-            color: #fecaca;
-        }
-
-        /* Main area */
-
-        .main-area {
-            display: flex;
-            flex: 1;
-            min-width: 0;
-            flex-direction: column;
-        }
-
-        .topbar {
-            display: flex;
-            min-height: 72px;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 14px 32px;
-            border-bottom: 1px solid #26344e;
-            background: #111c31;
-        }
-
-        .topbar-label {
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .profile-avatar {
-            display: flex;
-            width: 40px;
-            height: 40px;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #384660;
-            border-radius: 50%;
-            background: #202b40;
-            color: #c4b5fd;
-            font-weight: 700;
-        }
-
-        .main-content {
-            width: 100%;
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 42px 36px 56px;
-        }
-
-        /* Welcome section */
-
-        .welcome {
-            margin: 0 auto 48px;
-            max-width: 850px;
-            text-align: center;
-        }
-
-        .welcome-label {
-            color: #a5b4fc;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .welcome h1 {
-            margin: 14px 0 18px;
-            font-size: clamp(28px, 3vw, 43px);
-            font-weight: 800;
-            line-height: 1.25;
-            letter-spacing: -1px;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #818cf8, #c4b5fd, #fbbf24);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .welcome-description {
-            max-width: 730px;
-            margin: 0 auto;
-            color: #94a3b8;
-            font-size: 15px;
-            line-height: 1.9;
-        }
-
-        /* Sections */
-
-        .section-heading {
-            margin-bottom: 24px;
-        }
-
-        .section-heading h2 {
-            margin: 0;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .section-heading p {
-            margin: 9px 0 0;
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        /* Statistics */
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 25px;
-        }
-
-        .stat-card {
-            --accent: #818cf8;
-            position: relative;
-            overflow: hidden;
-            min-width: 0;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            background: var(--card-bg);
-            transition: transform .25s ease, border-color .25s ease,
-                        box-shadow .25s ease;
-        }
-
-        .stat-card::before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--accent);
-            content: "";
-        }
-
-        .stat-card::after {
-            position: absolute;
-            top: -38px;
-            right: -30px;
-            width: 145px;
-            height: 145px;
-            border-radius: 50%;
-            background: var(--accent);
-            opacity: .09;
-            content: "";
-            pointer-events: none;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 16px 30px #0002;
-        }
-
-        .stat-content {
-            position: relative;
-            z-index: 1;
-            padding: 27px 26px 25px;
-        }
-
-        .stat-icon {
-            display: flex;
-            width: 58px;
-            height: 58px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 17px;
-            background: var(--accent);
-            box-shadow: 0 8px 22px #0002;
-            font-size: 26px;
-        }
-
-        .stat-title {
-            margin: 20px 0 0;
-            font-size: 17px;
-            font-weight: 700;
-        }
-
-        .stat-description {
-            margin: 7px 0 0;
-            color: #94a3b8;
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-        .stat-number {
-            margin-top: 17px;
-            font-size: 34px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .stat-link {
-            display: inline-block;
-            margin-top: 18px;
-            color: var(--accent);
-            font-size: 14px;
-            font-weight: 600;
-            transition: transform .2s;
-        }
-
-        .stat-link:hover {
-            transform: translateX(3px);
-        }
-
-        /* Action cards */
-
-        .actions-section {
-            margin-top: 55px;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 25px;
-        }
-
-        .action-card {
-            --accent: #a5b4fc;
-            --glow: #6366f133;
-            display: flex;
-            min-width: 0;
-            flex-direction: column;
-            align-items: flex-start;
-            min-height: 245px;
-            padding: 27px;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            background: var(--card-bg);
-            transition: transform .25s ease, border-color .25s ease,
-                        background .25s ease, box-shadow .25s ease;
-        }
-
-        .action-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            background: #152139;
-            box-shadow: 0 15px 30px #0002;
-        }
-
-        .action-icon {
-            display: flex;
-            width: 60px;
-            height: 60px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 18px;
-            background: var(--accent);
-            box-shadow: 0 9px 25px var(--glow);
-            color: white;
-            font-size: 26px;
-        }
-
-        .action-card h3 {
-            margin: 20px 0 0;
-            font-size: 17px;
-            font-weight: 700;
-            line-height: 1.5;
-        }
-
-        .action-card p {
-            margin: 10px 0 0;
-            color: #94a3b8;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .action-card .action-link {
-            margin-top: auto;
-            padding-top: 20px;
-            color: var(--accent);
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        /* Helpful message */
-
-        .help-panel {
-            display: flex;
-            align-items: flex-start;
-            gap: 18px;
-            margin-top: 45px;
-            padding: 26px;
-            border: 1px solid #26344e;
-            border-radius: 18px;
-            background: #111c31;
-        }
-
-        .help-icon {
-            display: flex;
-            width: 46px;
-            height: 46px;
-            flex-shrink: 0;
-            align-items: center;
-            justify-content: center;
-            border-radius: 13px;
-            background: #6366f11a;
-            font-size: 23px;
-        }
-
-        .help-panel h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .help-panel p {
-            margin: 9px 0 0;
-            color: #94a3b8;
-            font-size: 13px;
-            line-height: 1.9;
-        }
-
-        /* Footer */
-
-        .footer {
-            margin-top: auto;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 23px 32px;
-            border-top: 1px solid #26344e;
-            color: #64748b;
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        /* Laptop */
-
-        @media (max-width: 1200px) {
-            .sidebar {
-                width: 240px;
-            }
-
-            .main-content {
-                padding: 36px 25px 45px;
-            }
-
-            .stats-grid,
-            .actions-grid {
-                gap: 18px;
-            }
-
-            .stat-content,
-            .action-card {
-                padding: 23px;
-            }
-        }
-
-        /* Tablet */
-
-        @media (max-width: 900px) {
-            .sidebar {
-                width: 215px;
-            }
-
-            .brand {
-                padding: 20px 14px;
-            }
-
-            .brand-title {
-                font-size: 15px;
-            }
-
-            .stats-grid,
-            .actions-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .main-content {
-                padding: 32px 22px 40px;
-            }
-
-            .welcome {
-                margin-bottom: 38px;
-            }
-
-            .topbar {
-                padding: 14px 22px;
-            }
-        }
-
-        /* Mobile */
-
-        @media (max-width: 640px) {
-            .app-layout {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                border-right: 0;
-                border-bottom: 1px solid #26344e;
-            }
-
-            .brand {
-                padding: 15px 18px;
-            }
-
-            .brand-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 21px;
-            }
-
-            .brand-title {
-                font-size: 15px;
-            }
-
-            .sidebar-nav {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 8px;
-                padding: 13px;
-            }
-
-            .nav-link {
-                min-width: 0;
-                gap: 8px;
-                margin: 0;
-                padding: 9px;
-                font-size: 12px;
-            }
-
-            .nav-icon {
-                width: 31px;
-                height: 31px;
-                font-size: 15px;
-            }
-
-            .nav-link:hover {
-                transform: none;
-            }
-
-            .sidebar-bottom {
-                padding: 0 13px 14px;
-                border-top: 0;
-            }
-
-            .logout-link {
-                padding: 10px;
-            }
-
-            .topbar {
-                min-height: 60px;
-                padding: 12px 18px;
-            }
-
-            .main-content {
-                padding: 32px 17px 40px;
-            }
-
-            .welcome {
-                margin-bottom: 37px;
-            }
-
-            .welcome h1 {
-                margin-top: 12px;
-                font-size: 29px;
-                letter-spacing: -.5px;
-            }
-
-            .welcome-description {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-
-            .section-heading {
-                margin-bottom: 18px;
-            }
-
-            .section-heading h2 {
-                font-size: 20px;
-            }
-
-            .stats-grid,
-            .actions-grid {
-                grid-template-columns: minmax(0, 1fr);
-                gap: 17px;
-            }
-
-            .stat-content {
-                padding: 23px;
-            }
-
-            .stat-icon {
-                width: 51px;
-                height: 51px;
-                font-size: 23px;
-            }
-
-            .stat-title {
-                margin-top: 17px;
-            }
-
-            .stat-number {
-                font-size: 31px;
-            }
-
-            .actions-section {
-                margin-top: 42px;
-            }
-
-            .action-card {
-                min-height: 220px;
-                padding: 23px;
-            }
-
-            .action-icon {
-                width: 53px;
-                height: 53px;
-                font-size: 23px;
-            }
-
-            .action-card h3 {
-                margin-top: 17px;
-            }
-
-            .help-panel {
-                gap: 13px;
-                margin-top: 32px;
-                padding: 20px;
-            }
-
-            .help-icon {
-                width: 39px;
-                height: 39px;
-                font-size: 20px;
-            }
-
-            .footer {
-                padding: 20px 18px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
+    
 </head>
 
 <body>
 
-<div class="app-layout">
+    <div class="app-layout">
 
-    <!-- =========================================
+        <!-- =========================================
          SIDEBAR
     ========================================== -->
-    <aside class="sidebar">
 
-        <a href="{{ url_for('dashboard') }}" class="brand">
-            <div class="brand-icon">📚</div>
+        <!-- Mobile overlay: place inside .app-layout, before the sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-            <div class="brand-title">
-                PY Library<br>
-                Management System
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+
+            <!-- Brand -->
+            <a href="{{ url_for('dashboard') }}" class="brand">
+                <div class="brand-icon">📚</div>
+                <div class="brand-title">
+                    PY Library<br>
+                    Management System
+                </div>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav" aria-label="Main navigation">
+
+                <a href="{{ url_for('dashboard') }}" class="nav-link active" aria-current="page">
+                    <span class="nav-icon">▦</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{{ url_for('books') }}" class="nav-link">
+                    <span class="nav-icon">▤</span>
+                    <span>Manage Books</span>
+                </a>
+
+                <a href="{{ url_for('members') }}" class="nav-link">
+                    <span class="nav-icon">♟</span>
+                    <span>Manage Members</span>
+                </a>
+
+                <a href="{{ url_for('issue_book') }}" class="nav-link">
+                    <span class="nav-icon">⇄</span>
+                    <span>Issue a Book</span>
+                </a>
+
+                <a href="{{ url_for('issued_books') }}" class="nav-link">
+                    <span class="nav-icon">📋</span>
+                    <span>Book Transactions</span>
+                </a>
+
+                <a href="{{ url_for('add_book') }}" class="nav-link">
+                    <span class="nav-icon">＋</span>
+                    <span>Add New Book</span>
+                </a>
+
+                <a href="{{ url_for('add_member') }}" class="nav-link">
+                    <span class="nav-icon">♙</span>
+                    <span>Register Member</span>
+                </a>
+
+            </nav>
+
+            <!-- Sidebar bottom -->
+            <div class="sidebar-bottom">
+                <a href="{{ url_for('home') }}" class="logout-link">
+                    <span>↪</span>
+                    Logout
+                </a>
             </div>
-        </a>
+
+        </aside>
 
 
-        <nav class="sidebar-nav">
 
-            <a href="{{ url_for('dashboard') }}"
-               class="nav-link active" aria-current="page">
-                <span class="nav-icon">▦</span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="{{ url_for('books') }}" class="nav-link">
-                <span class="nav-icon">▤</span>
-                <span>Manage Books</span>
-            </a>
-
-            <a href="{{ url_for('members') }}" class="nav-link">
-                <span class="nav-icon">♟</span>
-                <span>Manage Members</span>
-            </a>
-
-            <a href="{{ url_for('issue_book') }}" class="nav-link">
-                <span class="nav-icon">⇄</span>
-                <span>Issue a Book</span>
-            </a>
-
-            <a href="{{ url_for('issued_books') }}" class="nav-link">
-                <span class="nav-icon">📋</span>
-                <span>Book Transactions</span>
-            </a>
-
-            <a href="{{ url_for('add_book') }}" class="nav-link">
-                <span class="nav-icon">＋</span>
-                <span>Add New Book</span>
-            </a>
-
-            <a href="{{ url_for('add_member') }}" class="nav-link">
-                <span class="nav-icon">♙</span>
-                <span>Register Member</span>
-            </a>
-
-        </nav>
-
-
-        <div class="sidebar-bottom">
-            <a href="{{ url_for('home') }}" class="logout-link">
-                <span>↪</span>
-                Logout
-            </a>
-        </div>
-
-    </aside>
-
-
-    <!-- =========================================
+        <!-- =========================================
          MAIN AREA
     ========================================== -->
-    <div class="main-area">
+        <div class="main-area">
 
-        <!-- Top Bar -->
-        <header class="topbar">
+            <!-- Top Bar -->
+            <header class="topbar">
 
-            <p class="topbar-label">
-                Library Administration / Dashboard
-            </p>
+                <!-- Mobile hamburger menu button: ADD THIS -->
+                <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation menu"
+                    aria-controls="sidebar" aria-expanded="false">
 
-            <div class="profile">
-                <div class="hidden sm:block">
-                    <p class="text-right text-xs text-slate-500">
-                        Signed in as
-                    </p>
-                    <p class="mt-1 text-sm font-semibold">
-                        {{ name }}
-                    </p>
-                </div>
+                    <svg id="menuIcon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
 
-                <div class="profile-avatar">
-                    {{ name[0]|upper }}
-                </div>
-            </div>
+                </button>
+                <!-- End hamburger button -->
 
-        </header>
-
-
-        <!-- Main Content -->
-        <main class="main-content">
-
-            <!-- Welcome -->
-            <section class="welcome">
-
-                <p class="welcome-label">
-                    Your Library Workspace
+                <p class="topbar-label">
+                    Library Administration / Dashboard
                 </p>
 
-                <h1>
-                    Welcome to
-                    <span class="gradient-text">
-                        Library Management System
-                    </span>
-                </h1>
+                <div class="profile">
+                    <div class="hidden sm:block">
+                        <p class="text-right text-xs text-slate-500">
+                            Signed in as
+                        </p>
+                        <p class="mt-1 text-sm font-semibold">
+                            {{ name }}
+                        </p>
+                    </div>
 
-                <p class="welcome-description">
-                    Simplify your daily library operations with one
-                    organized workspace. Manage books, registered members,
-                    and borrowing activity while keeping track of
-                    availability and completed returns.
-                </p>
+                    <div class="profile-avatar">
+                        {{ name[0]|upper }}
+                    </div>
+                </div>
 
-            </section>
+            </header>
 
 
-            <!-- Library Overview -->
-            <section>
+            <!-- Main Content -->
+            <main class="main-content">
 
-                <div class="section-heading">
-                    <h2>Library Overview</h2>
+                <!-- Welcome -->
+                <section class="welcome">
 
-                    <p>
-                        A quick summary of your library's current records.
+                    <p class="welcome-label">
+                        Your Library Workspace
                     </p>
-                </div>
 
+                    <h1>
+                        Welcome to
+                        <span class="gradient-text">
+                            Library Management System
+                        </span>
+                    </h1>
 
-                <div class="stats-grid">
-
-                    <!-- Book Catalogue -->
-                    <article class="stat-card"
-                             style="--accent:#8b5cf6;">
-
-                        <div class="stat-content">
-
-                            <div class="stat-icon">📚</div>
-
-                            <h3 class="stat-title">
-                                Book Catalogue
-                            </h3>
-
-                            <p class="stat-description">
-                                Different book titles registered in your library.
-                            </p>
-
-                            <p class="stat-number">
-                                {{ total_books }}
-                            </p>
-
-                            <a href="{{ url_for('books') }}"
-                               class="stat-link">
-                                Manage Books&nbsp; ›
-                            </a>
-
-                        </div>
-                    </article>
-
-
-                    <!-- Members -->
-                    <article class="stat-card"
-                             style="--accent:#06b6d4;">
-
-                        <div class="stat-content">
-
-                            <div class="stat-icon">👥</div>
-
-                            <h3 class="stat-title">
-                                Borrowers
-                            </h3>
-
-                            <p class="stat-description">
-                                Readers registered in the library system.
-                            </p>
-
-                            <p class="stat-number">
-                                {{ total_members }}
-                            </p>
-
-                            <a href="{{ url_for('members') }}"
-                               class="stat-link">
-                                Manage Members&nbsp; ›
-                            </a>
-
-                        </div>
-                    </article>
-
-
-                    <!-- Issued Books -->
-                    <article class="stat-card"
-                             style="--accent:#f59e0b;">
-
-                        <div class="stat-content">
-
-                            <div class="stat-icon">📤</div>
-
-                            <h3 class="stat-title">
-                                Currently Issued
-                            </h3>
-
-                            <p class="stat-description">
-                                Issue records that have not been returned.
-                            </p>
-
-                            <p class="stat-number">
-                                {{ total_issued }}
-                            </p>
-
-                            <a href="{{ url_for('issued_books') }}"
-                               class="stat-link">
-                                View Transactions&nbsp; ›
-                            </a>
-
-                        </div>
-                    </article>
-
-
-                    <!-- Returned Books -->
-                    <article class="stat-card"
-                             style="--accent:#10b981;">
-
-                        <div class="stat-content">
-
-                            <div class="stat-icon">📥</div>
-
-                            <h3 class="stat-title">
-                                Returned Books
-                            </h3>
-
-                            <p class="stat-description">
-                                Issue records marked as returned.
-                            </p>
-
-                            <p class="stat-number">
-                                {{ total_returned }}
-                            </p>
-
-                            <a href="{{ url_for('issued_books') }}"
-                               class="stat-link">
-                                View Return Records&nbsp; ›
-                            </a>
-
-                        </div>
-                    </article>
-
-                </div>
-
-            </section>
-
-
-            <!-- Quick Actions -->
-            <section class="actions-section">
-
-                <div class="section-heading">
-                    <h2>Manage Your Library</h2>
-
-                    <p>
-                        Select an action to manage your library efficiently.
+                    <p class="welcome-description">
+                        Simplify your daily library operations with one
+                        organized workspace. Manage books, registered members,
+                        and borrowing activity while keeping track of
+                        availability and completed returns.
                     </p>
-                </div>
+
+                </section>
 
 
-                <div class="actions-grid">
+                <!-- Library Overview -->
+                <section>
 
-                    <!-- Add Book -->
-                    <a href="{{ url_for('add_book') }}"
-                       class="action-card"
-                       style="--accent:#a5b4fc;--glow:#6366f133;">
-
-                        <div class="action-icon">＋</div>
-
-                        <h3>Add a Book</h3>
+                    <div class="section-heading">
+                        <h2>Library Overview</h2>
 
                         <p>
-                            Add book titles, author information, categories,
-                            and copy quantities to your collection.
+                            A quick summary of your library's current records.
                         </p>
-
-                        <span class="action-link">
-                            Add to Catalogue&nbsp; →
-                        </span>
-
-                    </a>
+                    </div>
 
 
-                    <!-- Add Member -->
-                    <a href="{{ url_for('add_member') }}"
-                       class="action-card"
-                       style="--accent:#67e8f9;--glow:#06b6d433;">
+                    <div class="stats-grid">
 
-                        <div class="action-icon">♙</div>
+                        <!-- Book Catalogue -->
+                        <article class="stat-card" style="--accent:#8b5cf6;">
 
-                        <h3>Register a Member</h3>
+                            <div class="stat-content">
+
+                                <div class="stat-icon">📚</div>
+
+                                <h3 class="stat-title">
+                                    Book Catalogue
+                                </h3>
+
+                                <p class="stat-description">
+                                    Different book titles registered in your library.
+                                </p>
+
+                                <p class="stat-number">
+                                    {{ total_books }}
+                                </p>
+
+                                <a href="{{ url_for('books') }}" class="stat-link">
+                                    Manage Books&nbsp; ›
+                                </a>
+
+                            </div>
+                        </article>
+
+
+                        <!-- Members -->
+                        <article class="stat-card" style="--accent:#06b6d4;">
+
+                            <div class="stat-content">
+
+                                <div class="stat-icon">👥</div>
+
+                                <h3 class="stat-title">
+                                    Borrowers
+                                </h3>
+
+                                <p class="stat-description">
+                                    Readers registered in the library system.
+                                </p>
+
+                                <p class="stat-number">
+                                    {{ total_members }}
+                                </p>
+
+                                <a href="{{ url_for('members') }}" class="stat-link">
+                                    Manage Members&nbsp; ›
+                                </a>
+
+                            </div>
+                        </article>
+
+
+                        <!-- Issued Books -->
+                        <article class="stat-card" style="--accent:#f59e0b;">
+
+                            <div class="stat-content">
+
+                                <div class="stat-icon">📤</div>
+
+                                <h3 class="stat-title">
+                                    Currently Issued
+                                </h3>
+
+                                <p class="stat-description">
+                                    Issue records that have not been returned.
+                                </p>
+
+                                <p class="stat-number">
+                                    {{ total_issued }}
+                                </p>
+
+                                <a href="{{ url_for('issued_books') }}" class="stat-link">
+                                    View Transactions&nbsp; ›
+                                </a>
+
+                            </div>
+                        </article>
+
+
+                        <!-- Returned Books -->
+                        <article class="stat-card" style="--accent:#10b981;">
+
+                            <div class="stat-content">
+
+                                <div class="stat-icon">📥</div>
+
+                                <h3 class="stat-title">
+                                    Returned Books
+                                </h3>
+
+                                <p class="stat-description">
+                                    Issue records marked as returned.
+                                </p>
+
+                                <p class="stat-number">
+                                    {{ total_returned }}
+                                </p>
+
+                                <a href="{{ url_for('issued_books') }}" class="stat-link">
+                                    View Return Records&nbsp; ›
+                                </a>
+
+                            </div>
+                        </article>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Quick Actions -->
+                <section class="actions-section">
+
+                    <div class="section-heading">
+                        <h2>Manage Your Library</h2>
 
                         <p>
-                            Register a reader and maintain their contact
-                            information in one place.
+                            Select an action to manage your library efficiently.
                         </p>
-
-                        <span class="action-link">
-                            Register Member&nbsp; →
-                        </span>
-
-                    </a>
+                    </div>
 
 
-                    <!-- Issue Book -->
-                    <a href="{{ url_for('issue_book') }}"
-                       class="action-card"
-                       style="--accent:#fbbf24;--glow:#f59e0b33;">
+                    <div class="actions-grid">
 
-                        <div class="action-icon">⇄</div>
+                        <!-- Add Book -->
+                        <a href="{{ url_for('add_book') }}" class="action-card"
+                            style="--accent:#a5b4fc;--glow:#6366f133;">
 
-                        <h3>Issue a Book</h3>
+                            <div class="action-icon">＋</div>
+
+                            <h3>Add a Book</h3>
+
+                            <p>
+                                Add book titles, author information, categories,
+                                and copy quantities to your collection.
+                            </p>
+
+                            <span class="action-link">
+                                Add to Catalogue&nbsp; →
+                            </span>
+
+                        </a>
+
+
+                        <!-- Add Member -->
+                        <a href="{{ url_for('add_member') }}" class="action-card"
+                            style="--accent:#67e8f9;--glow:#06b6d433;">
+
+                            <div class="action-icon">♙</div>
+
+                            <h3>Register a Member</h3>
+
+                            <p>
+                                Register a reader and maintain their contact
+                                information in one place.
+                            </p>
+
+                            <span class="action-link">
+                                Register Member&nbsp; →
+                            </span>
+
+                        </a>
+
+
+                        <!-- Issue Book -->
+                        <a href="{{ url_for('issue_book') }}" class="action-card"
+                            style="--accent:#fbbf24;--glow:#f59e0b33;">
+
+                            <div class="action-icon">⇄</div>
+
+                            <h3>Issue a Book</h3>
+
+                            <p>
+                                Assign an available book to a registered member
+                                and update stock automatically.
+                            </p>
+
+                            <span class="action-link">
+                                Issue a Book&nbsp; →
+                            </span>
+
+                        </a>
+
+
+                        <!-- Browse Books -->
+                        <a href="{{ url_for('books') }}" class="action-card" style="--accent:#a5b4fc;--glow:#6366f133;">
+
+                            <div class="action-icon">▤</div>
+
+                            <h3>Book Catalogue</h3>
+
+                            <p>
+                                Browse your book collection and review total
+                                copies and available stock.
+                            </p>
+
+                            <span class="action-link">
+                                Browse Books&nbsp; →
+                            </span>
+
+                        </a>
+
+
+                        <!-- Members -->
+                        <a href="{{ url_for('members') }}" class="action-card"
+                            style="--accent:#67e8f9;--glow:#06b6d433;">
+
+                            <div class="action-icon">♟</div>
+
+                            <h3>Manage Borrowers</h3>
+
+                            <p>
+                                Review registered members and their saved
+                                contact information.
+                            </p>
+
+                            <span class="action-link">
+                                View Members&nbsp; →
+                            </span>
+
+                        </a>
+
+
+                        <!-- Transactions -->
+                        <a href="{{ url_for('issued_books') }}" class="action-card"
+                            style="--accent:#c4b5fd;--glow:#8b5cf633;">
+
+                            <div class="action-icon">↻</div>
+
+                            <h3>Book Transactions</h3>
+
+                            <p>
+                                Review issue records, check outstanding loans,
+                                and process book returns.
+                            </p>
+
+                            <span class="action-link">
+                                Open Transactions&nbsp; →
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Helpful Information -->
+                <section class="help-panel">
+
+                    <div class="help-icon">💡</div>
+
+                    <div>
+                        <h3>Keep Your Library Organized</h3>
 
                         <p>
-                            Assign an available book to a registered member
-                            and update stock automatically.
+                            Record book issues and returns promptly, keep member
+                            information accurate, and update book quantities
+                            whenever your collection changes. Reliable records
+                            help you monitor availability and manage daily
+                            library activities more effectively.
                         </p>
+                    </div>
 
-                        <span class="action-link">
-                            Issue a Book&nbsp; →
-                        </span>
+                </section>
 
-                    </a>
-
-
-                    <!-- Browse Books -->
-                    <a href="{{ url_for('books') }}"
-                       class="action-card"
-                       style="--accent:#a5b4fc;--glow:#6366f133;">
-
-                        <div class="action-icon">▤</div>
-
-                        <h3>Book Catalogue</h3>
-
-                        <p>
-                            Browse your book collection and review total
-                            copies and available stock.
-                        </p>
-
-                        <span class="action-link">
-                            Browse Books&nbsp; →
-                        </span>
-
-                    </a>
+            </main>
 
 
-                    <!-- Members -->
-                    <a href="{{ url_for('members') }}"
-                       class="action-card"
-                       style="--accent:#67e8f9;--glow:#06b6d433;">
+            <!-- Footer -->
+            <footer class="footer">
 
-                        <div class="action-icon">♟</div>
+                <p>© 2026 PY Library Management System</p>
 
-                        <h3>Manage Borrowers</h3>
+                <p>Organize your collection. Empower your readers.</p>
 
-                        <p>
-                            Review registered members and their saved
-                            contact information.
-                        </p>
+            </footer>
 
-                        <span class="action-link">
-                            View Members&nbsp; →
-                        </span>
-
-                    </a>
-
-
-                    <!-- Transactions -->
-                    <a href="{{ url_for('issued_books') }}"
-                       class="action-card"
-                       style="--accent:#c4b5fd;--glow:#8b5cf633;">
-
-                        <div class="action-icon">↻</div>
-
-                        <h3>Book Transactions</h3>
-
-                        <p>
-                            Review issue records, check outstanding loans,
-                            and process book returns.
-                        </p>
-
-                        <span class="action-link">
-                            Open Transactions&nbsp; →
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </section>
-
-
-            <!-- Helpful Information -->
-            <section class="help-panel">
-
-                <div class="help-icon">💡</div>
-
-                <div>
-                    <h3>Keep Your Library Organized</h3>
-
-                    <p>
-                        Record book issues and returns promptly, keep member
-                        information accurate, and update book quantities
-                        whenever your collection changes. Reliable records
-                        help you monitor availability and manage daily
-                        library activities more effectively.
-                    </p>
-                </div>
-
-            </section>
-
-        </main>
-
-
-        <!-- Footer -->
-        <footer class="footer">
-
-            <p>© 2026 PY Library Management System</p>
-
-            <p>Organize your collection. Empower your readers.</p>
-
-        </footer>
+        </div>
 
     </div>
 
-</div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 </body>
+
 </html>
